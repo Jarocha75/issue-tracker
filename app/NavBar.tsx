@@ -1,11 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AiFillBug } from "react-icons/ai";
 import classnames from "classnames";
 import { useSession } from "next-auth/react";
 import { Avatar, Box, Container, DropdownMenu, Flex } from "@radix-ui/themes";
+import Link from "next/link";
 
 const NavBar = () => {
   const currentPath = usePathname();
@@ -45,19 +45,22 @@ const NavBar = () => {
             {status === "authenticated" && (
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger>
-                  <button className="cursor-pointer border-none bg-transparent p-0">
+                  <button className="p-0 m-0 w-8 h-8 bg-transparent border-0 outline-none rounded-full cursor-pointer flex items-center justify-center">
                     <Avatar
-                      src={session.user?.image || undefined}
-                      size="2"
+                      src={undefined}
+                      fallback={
+                        session.user?.name?.charAt(0).toUpperCase() || "U"
+                      }
                       variant="solid"
                       color="cyan"
+                      size="2"
                       radius="full"
-                      fallback={session.user?.name?.charAt(0) || "U"}
+                      className="cursor-pointer"
                     />
                   </button>
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Content>
-                  <DropdownMenu.Label>{session.user?.email}</DropdownMenu.Label>
+                  <DropdownMenu.Label>{session.user!.email}</DropdownMenu.Label>
                   <DropdownMenu.Item>
                     <Link href="/api/auth/signout">Sign out</Link>
                   </DropdownMenu.Item>
