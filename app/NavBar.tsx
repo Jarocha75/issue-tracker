@@ -52,7 +52,7 @@ const NavBar = () => {
                         session.user?.name?.charAt(0).toUpperCase() || "U"
                       }
                       variant="solid"
-                      color="cyan"
+                      color="indigo"
                       size="2"
                       radius="full"
                       className="cursor-pointer"
