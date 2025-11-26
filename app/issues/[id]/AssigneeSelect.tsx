@@ -11,19 +11,7 @@ import toast, { Toaster } from "react-hot-toast";
 const AssigneeSelect = ({ issue }: { issue: Issue }) => {
   const [value, setValue] = useState(issue.assignedToUserId || "unassigned");
 
-  const {
-    data: users,
-    error,
-    isLoading,
-  } = useQuery<User[]>({
-    queryKey: ["users"],
-    queryFn: async () => {
-      const { data } = await axios.get<User[]>("/api/users");
-      return data;
-    },
-    staleTime: 1 * 60 * 1000, // 1 minutes
-    retry: 3,
-  });
+  const { data: users, error, isLoading } = useUsers();
 
   if (isLoading) {
     return <Skeleton />;
@@ -33,24 +21,23 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
     return <div>Error loading users</div>;
   }
 
+  const assignIssue = async (newValue: string) => {
+    const previous = value;
+    setValue(newValue);
+
+    try {
+      await axios.patch("/api/issues/" + issue.id, {
+        assignedToUserId: newValue === "unassigned" ? null : newValue,
+      });
+    } catch (error) {
+      toast.error("Change could not be saved");
+      setValue(previous);
+    }
+  };
+
   return (
     <>
-      <Select.Root
-        value={value}
-        onValueChange={async (newValue) => {
-          const previous = value;
-          setValue(newValue);
-
-          try {
-            await axios.patch("/api/issues/" + issue.id, {
-              assignedToUserId: newValue === "unassigned" ? null : newValue,
-            });
-          } catch (error) {
-            toast.error("Change could not be saved");
-            setValue(previous);
-          }
-        }}
-      >
+      <Select.Root value={value} onValueChange={assignIssue}>
         <Select.Trigger placeholder="Select Assignee" />
         <Select.Content>
           <Select.Group>
@@ -68,5 +55,16 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
     </>
   );
 };
+
+const useUsers = () =>
+  useQuery<User[]>({
+    queryKey: ["users"],
+    queryFn: async () => {
+      const { data } = await axios.get<User[]>("/api/users");
+      return data;
+    },
+    staleTime: 1 * 60 * 1000, // 1 minutes
+    retry: 3,
+  });
 
 export default AssigneeSelect;
