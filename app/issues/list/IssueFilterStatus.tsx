@@ -4,8 +4,8 @@ import { Status } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
 import React from "react";
 
-const statuses: { label: string; value?: Status }[] = [
-  { label: "ALL" },
+const statuses: { label: string; value: "all" | Status }[] = [
+  { label: "ALL", value: "all" },
   { label: "Open", value: "OPEN" },
   { label: "In Progress", value: "IN_PROGRESS" },
   { label: "Closed", value: "CLOSED" },
@@ -17,7 +17,7 @@ const IssueFilterStatus = () => {
       <Select.Trigger placeholder="Filter by Status" />
       <Select.Content>
         {statuses.map((status) => (
-          <Select.Item key={status.value} value={status.value || "null"}>
+          <Select.Item key={status.value} value={status.value}>
             {status.label}
           </Select.Item>
         ))}
