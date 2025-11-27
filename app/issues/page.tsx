@@ -35,7 +35,7 @@ const IssuePage = async ({ searchParams }: Props) => {
       status,
     },
     orderBy: {
-      createdAt: "asc",
+      [searchParams.orderBy ?? "createdAt"]: "asc",
     },
   });
 
