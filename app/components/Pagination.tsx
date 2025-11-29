@@ -12,15 +12,15 @@ import React from "react";
 
 interface Props {
   itemCount: number;
-  itemsPerPage: number;
+  pageSize: number;
   currentPage: number;
 }
 
-const Pagination = ({ itemCount, itemsPerPage, currentPage }: Props) => {
+const Pagination = ({ itemCount, pageSize, currentPage }: Props) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const pageCount = Math.ceil(itemCount / itemsPerPage);
+  const pageCount = Math.ceil(itemCount / pageSize);
   if (pageCount <= 1) return null;
 
   const changePage = (newPage: number) => {
