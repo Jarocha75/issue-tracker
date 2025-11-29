@@ -10,7 +10,7 @@ export default function Home({ searchParams }: Props) {
   return (
     <Pagination
       itemCount={100}
-      itemsPerPage={10}
+      pageSize={10}
       currentPage={searchParams.page ? parseInt(searchParams.page) : 1}
     />
   );
