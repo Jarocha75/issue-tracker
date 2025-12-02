@@ -1,5 +1,12 @@
-import prisma from "@/prisma/client";
-import { Avatar, Card, Flex, Heading, Table } from "@radix-ui/themes";
+import { prisma } from "@/prisma/client";
+import {
+  Avatar,
+  Card,
+  Flex,
+  Heading,
+  Table,
+  Link as RadixLink,
+} from "@radix-ui/themes";
 import Link from "next/link";
 import React from "react";
 import { IssueStatusBadge } from "./components";
@@ -27,12 +34,13 @@ const LatestIssue = async () => {
               <Table.Cell>
                 <Flex justify="between">
                   <Flex direction="column" align="start" gap="2">
-                    <Link href={`/issues/${iss.id}`}>{iss.title}</Link>
+                    <RadixLink asChild>
+                      <Link href={`/issues/${iss.id}`}>{iss.title}</Link>
+                    </RadixLink>
                     <IssueStatusBadge status={iss.status} />
                   </Flex>
                   {iss.assignedToUser && (
                     <Avatar
-                      src={iss.assignedToUser.image || undefined}
                       fallback={
                         iss.assignedToUser.name?.charAt(0).toUpperCase() || "?"
                       }

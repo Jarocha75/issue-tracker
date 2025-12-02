@@ -67,17 +67,15 @@ const AuthStatus = () => {
     <Box>
       <DropdownMenu.Root>
         <DropdownMenu.Trigger>
-          <button className="p-0 m-0 w-8 h-8 bg-transparent border-0 outline-none rounded-full cursor-pointer flex items-center justify-center">
-            <Avatar
-              src={undefined}
-              fallback={session!.user?.name?.charAt(0).toUpperCase() || "U"}
-              variant="solid"
-              color="indigo"
-              size="2"
-              radius="full"
-              className="cursor-pointer"
-            />
-          </button>
+          <Avatar
+            src={undefined}
+            fallback={session!.user?.name?.charAt(0).toUpperCase() || "U"}
+            variant="solid"
+            color="indigo"
+            size="2"
+            radius="full"
+            className="cursor-pointer"
+          />
         </DropdownMenu.Trigger>
         <DropdownMenu.Content>
           <DropdownMenu.Label>{session!.user!.email}</DropdownMenu.Label>
